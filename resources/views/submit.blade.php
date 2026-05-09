@@ -2,7 +2,7 @@
 
     <h1 class="text-xl font-semibold tracking-tight mb-2">Suggest an entry</h1>
     <p class="text-sm text-stone-500 dark:text-stone-400 mb-8">
-        Submissions are reviewed manually before being added. Focused on indie web / small web indexes only —
+        Submissions are reviewed manually before being added. Focused on indie web / small web indexes only,
         not individual blogs.
     </p>
 

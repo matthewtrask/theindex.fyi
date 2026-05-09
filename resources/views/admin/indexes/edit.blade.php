@@ -1,4 +1,4 @@
-<x-layouts::app :title="'Edit — '.$index->name">
+<x-layouts::app :title="'Edit: '.$index->name">
     <div class="p-6 max-w-xl space-y-6">
         <div>
             <a href="{{ route('admin.indexes.index') }}" class="text-sm text-zinc-500 hover:text-zinc-900 transition-colors">← Entries</a>

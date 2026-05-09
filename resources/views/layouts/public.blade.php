@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ filled($title ?? null) ? $title.' — theindex.fyi' : 'theindex.fyi' }}</title>
+    <title>{{ filled($title ?? null) ? $title.' | theindex.fyi' : 'theindex.fyi' }}</title>
     <meta name="description" content="A maintained, canonical meta-index of indie web and small web index sites." />
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -67,7 +67,7 @@
 
     <footer class="border-t border-stone-200 dark:border-stone-700 py-6 mt-10">
         <div class="mx-auto max-w-3xl px-4 text-sm text-stone-400 dark:text-stone-500 flex justify-between items-center">
-            <span>theindex.fyi — a meta-index of the indie web</span>
+            <span>theindex.fyi, a meta-index of the indie web</span>
             <a href="{{ route('submit') }}" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">suggest an entry <span aria-hidden="true">→</span></a>
         </div>
     </footer>

@@ -10,7 +10,7 @@
         </p>
         <p>
             theindex.fyi is that reference. It was born from a Hacker News comment thread where someone listed their
-            favorite blog indexes and someone else asked "are there any indexes which index all of these?" — and the
+            favorite blog indexes and someone else asked "are there any indexes which index all of these?" and the
             answer was: not really.
         </p>
         <p>

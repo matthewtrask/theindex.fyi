@@ -40,10 +40,10 @@
                                 <p class="text-xs text-zinc-500 mt-1">{{ $submission->description }}</p>
                             </td>
                             <td class="px-4 py-3 text-zinc-500 text-xs">
-                                {{ $submission->category?->label() ?? '—' }}
+                                {{ $submission->category?->label() ?? '-' }}
                             </td>
                             <td class="px-4 py-3 text-xs text-zinc-500">
-                                {{ $submission->submitted_by_email ?? '—' }}
+                                {{ $submission->submitted_by_email ?? '-' }}
                             </td>
                             <td class="px-4 py-3">
                                 <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
