@@ -1,4 +1,4 @@
-<x-layouts::public title="Submit an entry">
+<x-layouts::public title="Submit an entry" description="Suggest a new indie web or small web index for inclusion in theindex.fyi. Submissions are reviewed manually.">
 
     <h1 class="text-xl font-semibold tracking-tight mb-2">Suggest an entry</h1>
     <p class="text-sm text-stone-500 dark:text-stone-400 mb-8">

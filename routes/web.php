@@ -15,6 +15,21 @@ Route::get('/visit/{slug}', VisitController::class)->name('visit');
 Route::get('/submit', [SubmitController::class, 'create'])->name('submit');
 Route::post('/submit', [SubmitController::class, 'store'])->name('submit.store');
 
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        ['url' => route('home'),   'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['url' => route('about'),  'priority' => '0.5', 'changefreq' => 'monthly'],
+        ['url' => route('submit'), 'priority' => '0.6', 'changefreq' => 'monthly'],
+    ];
+    return response()->view('sitemap', compact('urls'))
+        ->header('Content-Type', 'application/xml');
+})->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    return response("User-agent: *\nAllow: /\nDisallow: /admin\nSitemap: " . route('sitemap') . "\n")
+        ->header('Content-Type', 'text/plain');
+});
+
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/stats', StatsController::class)->name('stats');
     Route::get('/submissions', [SubmissionController::class, 'index'])->name('submissions.index');

@@ -1,4 +1,4 @@
-<x-layouts::public title="About">
+<x-layouts::public title="About" description="theindex.fyi is a maintained, canonical meta-index of indie web and small web index sites — the index of indexes.">
 
     <h1 class="text-xl font-semibold tracking-tight mb-6">About</h1>
 

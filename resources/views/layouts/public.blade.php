@@ -3,8 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ filled($title ?? null) ? $title.' | theindex.fyi' : 'theindex.fyi' }}</title>
-    <meta name="description" content="A maintained, canonical meta-index of indie web and small web index sites." />
+
+    @php
+        $pageTitle       = filled($title ?? null) ? $title.' | theindex.fyi' : 'theindex.fyi — The index of indie web indexes';
+        $pageDescription = $description ?? 'A maintained, canonical meta-index of indie web and small web index sites. ' . \App\Models\Index::count() . ' entries across 6 categories.';
+        $pageUrl         = url()->current();
+    @endphp
+
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $pageDescription }}" />
+    <link rel="canonical" href="{{ $pageUrl }}" />
+
+    {{-- Open Graph --}}
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="theindex.fyi" />
+    <meta property="og:title"       content="{{ $pageTitle }}" />
+    <meta property="og:description" content="{{ $pageDescription }}" />
+    <meta property="og:url"         content="{{ $pageUrl }}" />
+
+    <meta property="og:image"         content="{{ asset('og.png') }}" />
+
+    {{-- Twitter / X --}}
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="{{ $pageTitle }}" />
+    <meta name="twitter:description" content="{{ $pageDescription }}" />
+    <meta name="twitter:image"       content="{{ asset('og.png') }}" />
+
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
