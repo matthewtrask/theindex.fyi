@@ -300,11 +300,11 @@ class IndexSeeder extends Seeder
         ];
 
         foreach ($entries as $entry) {
-            Index::create([
-                ...$entry,
-                'slug' => Str::slug($entry['name']),
-                'status' => IndexStatus::Active,
-            ]);
+            $slug = Str::slug($entry['name']);
+            Index::firstOrCreate(
+                ['slug' => $slug],
+                [...$entry, 'slug' => $slug, 'status' => IndexStatus::Active]
+            );
         }
     }
 }
