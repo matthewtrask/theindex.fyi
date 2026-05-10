@@ -90,7 +90,7 @@
     </main>
 
     <footer class="border-t border-stone-200 dark:border-stone-700 py-6 mt-10">
-        <div class="mx-auto max-w-3xl px-4 text-sm text-stone-400 dark:text-stone-500 flex justify-between items-center">
+        <div class="mx-auto max-w-3xl px-4 text-sm text-stone-400 dark:text-stone-500 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
             <span>theindex.fyi, a meta-index of the indie web</span>
             <div class="flex items-center gap-4">
                 <a href="{{ route('submit') }}" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">suggest an entry <span aria-hidden="true">→</span></a>
