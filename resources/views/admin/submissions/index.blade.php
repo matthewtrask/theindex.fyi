@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-xl font-semibold">Submissions</h1>
-                <p class="text-sm text-zinc-500 mt-0.5">{{ $submissions->total() }} total</p>
+                <p class="text-sm text-zinc-500 mt-0.5">{{ $submissions->total() }} pending</p>
             </div>
             <div class="flex gap-3 text-sm">
                 <a href="{{ route('admin.stats') }}" class="text-zinc-500 hover:text-zinc-900 transition-colors">Stats</a>

@@ -13,7 +13,7 @@ class SubmissionController extends Controller
 {
     public function index(): View
     {
-        $submissions = Submission::latest()->paginate(25);
+        $submissions = Submission::where('status', SubmissionStatus::Pending)->latest()->paginate(25);
 
         return view('admin.submissions.index', compact('submissions'));
     }
