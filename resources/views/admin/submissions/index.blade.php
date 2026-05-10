@@ -17,15 +17,15 @@
             </div>
         @endif
 
-        <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50">
                         <th class="text-left px-4 py-3 font-medium">Entry</th>
-                        <th class="text-left px-4 py-3 font-medium">Category</th>
-                        <th class="text-left px-4 py-3 font-medium">Submitter</th>
+                        <th class="text-left px-4 py-3 font-medium hidden sm:table-cell">Category</th>
+                        <th class="text-left px-4 py-3 font-medium hidden sm:table-cell">Submitter</th>
                         <th class="text-left px-4 py-3 font-medium">Status</th>
-                        <th class="text-left px-4 py-3 font-medium">Submitted</th>
+                        <th class="text-left px-4 py-3 font-medium hidden sm:table-cell">Submitted</th>
                         <th class="px-4 py-3"></th>
                     </tr>
                 </thead>
@@ -39,10 +39,10 @@
                                 </a>
                                 <p class="text-xs text-zinc-500 mt-1">{{ $submission->description }}</p>
                             </td>
-                            <td class="px-4 py-3 text-zinc-500 text-xs">
+                            <td class="px-4 py-3 text-zinc-500 text-xs hidden sm:table-cell">
                                 {{ $submission->category?->label() ?? '-' }}
                             </td>
-                            <td class="px-4 py-3 text-xs text-zinc-500">
+                            <td class="px-4 py-3 text-xs text-zinc-500 hidden sm:table-cell">
                                 {{ $submission->submitted_by_email ?? '-' }}
                             </td>
                             <td class="px-4 py-3">
@@ -55,7 +55,7 @@
                                     {{ $submission->status->value }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-xs text-zinc-400">
+                            <td class="px-4 py-3 text-xs text-zinc-400 hidden sm:table-cell">
                                 {{ $submission->created_at->diffForHumans() }}
                             </td>
                             <td class="px-4 py-3">

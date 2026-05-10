@@ -17,14 +17,14 @@
             </div>
         @endif
 
-        <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50">
                         <th class="text-left px-4 py-3 font-medium">Entry</th>
-                        <th class="text-left px-4 py-3 font-medium">Category</th>
+                        <th class="text-left px-4 py-3 font-medium hidden sm:table-cell">Category</th>
                         <th class="text-left px-4 py-3 font-medium">Status</th>
-                        <th class="text-left px-4 py-3 font-medium">Submissions</th>
+                        <th class="text-left px-4 py-3 font-medium hidden sm:table-cell">Submissions</th>
                         <th class="px-4 py-3"></th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                                     {{ $entry->url }}
                                 </a>
                             </td>
-                            <td class="px-4 py-3 text-xs text-zinc-500">{{ $entry->category->label() }}</td>
+                            <td class="px-4 py-3 text-xs text-zinc-500 hidden sm:table-cell">{{ $entry->category->label() }}</td>
                             <td class="px-4 py-3">
                                 <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium
                                     {{ match($entry->status) {
@@ -48,7 +48,7 @@
                                     {{ $entry->status->label() }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-xs text-zinc-500">
+                            <td class="px-4 py-3 text-xs text-zinc-500 hidden sm:table-cell">
                                 {{ $entry->accepts_submissions ? 'Yes' : 'No' }}
                             </td>
                             <td class="px-4 py-3 text-right">

@@ -1,5 +1,5 @@
 <x-layouts::app title="Stats">
-    <div class="p-12 max-w-5xl space-y-14">
+    <div class="p-4 sm:p-12 max-w-5xl space-y-14">
 
         <div class="flex items-center justify-between">
             <h1 class="text-2xl font-semibold">Stats</h1>
@@ -12,7 +12,7 @@
         {{-- Visitor summary --}}
         <section>
             <h2 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-5">Visitors</h2>
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 @foreach ([['label' => 'Today', 'value' => $viewsToday], ['label' => 'Last 7 days', 'value' => $viewsWeek], ['label' => 'All time', 'value' => $viewsTotal]] as $stat)
                     <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 px-5 py-4">
                         <p class="text-3xl font-semibold tracking-tight">{{ number_format($stat['value']) }}</p>
@@ -23,7 +23,7 @@
         </section>
 
         {{-- Top pages + referrers --}}
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <section>
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-5">Top Pages</h2>
                 <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 divide-y divide-zinc-100 dark:divide-zinc-800">
@@ -59,12 +59,12 @@
                 <h2 class="text-xs font-semibold uppercase tracking-widest text-zinc-400">Clicks</h2>
                 <span class="text-xs text-zinc-400">{{ number_format($totalClicks) }} total</span>
             </div>
-            <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+            <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50">
                             <th class="text-left px-5 py-4 font-medium">Entry</th>
-                            <th class="text-left px-5 py-4 font-medium">Category</th>
+                            <th class="text-left px-5 py-4 font-medium hidden sm:table-cell">Category</th>
                             <th class="text-right px-5 py-4 font-medium">Clicks</th>
                         </tr>
                     </thead>
@@ -75,7 +75,7 @@
                                     <div class="font-medium">{{ $entry->name }}</div>
                                     <div class="text-xs text-zinc-400 mt-0.5 truncate max-w-xs">{{ $entry->url }}</div>
                                 </td>
-                                <td class="px-5 py-4 text-zinc-500">{{ $entry->category->label() }}</td>
+                                <td class="px-5 py-4 text-zinc-500 hidden sm:table-cell">{{ $entry->category->label() }}</td>
                                 <td class="px-5 py-4 text-right font-mono tabular-nums">{{ number_format($entry->clicks_count) }}</td>
                             </tr>
                         @endforeach
