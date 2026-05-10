@@ -52,7 +52,15 @@
                                 {{ $entry->accepts_submissions ? 'Yes' : 'No' }}
                             </td>
                             <td class="px-4 py-3 text-right">
-                                <a href="{{ route('admin.indexes.edit', $entry) }}" class="text-xs text-zinc-500 hover:text-zinc-900 font-medium">Edit</a>
+                                <div class="flex items-center justify-end gap-3">
+                                    <a href="{{ route('admin.indexes.edit', $entry) }}" class="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 font-medium">Edit</a>
+                                    <form method="POST" action="{{ route('admin.indexes.destroy', $entry) }}"
+                                          onsubmit="return confirm('Delete {{ addslashes($entry->name) }}?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-xs text-red-400 hover:text-red-600 font-medium">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

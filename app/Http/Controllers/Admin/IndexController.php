@@ -45,4 +45,12 @@ class IndexController extends Controller
         return redirect()->route('admin.indexes.index')
             ->with('success', "Entry updated.");
     }
+
+    public function destroy(Index $index): RedirectResponse
+    {
+        $index->delete();
+
+        return redirect()->route('admin.indexes.index')
+            ->with('success', "Entry deleted.");
+    }
 }

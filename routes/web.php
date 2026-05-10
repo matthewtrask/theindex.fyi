@@ -37,6 +37,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/indexes', [IndexController::class, 'index'])->name('indexes.index');
     Route::get('/indexes/{index}/edit', [IndexController::class, 'edit'])->name('indexes.edit');
     Route::patch('/indexes/{index}', [IndexController::class, 'update'])->name('indexes.update');
+    Route::delete('/indexes/{index}', [IndexController::class, 'destroy'])->name('indexes.destroy');
 });
 
 require __DIR__.'/settings.php';
