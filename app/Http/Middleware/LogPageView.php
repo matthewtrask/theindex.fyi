@@ -39,6 +39,10 @@ class LogPageView
             return false;
         }
 
+        if ($request->is('admin', 'admin/*')) {
+            return false;
+        }
+
         $ua = strtolower($request->userAgent() ?? '');
         foreach (self::BOT_SIGNATURES as $sig) {
             if (str_contains($ua, strtolower($sig))) {
