@@ -94,7 +94,9 @@
             <span>theindex.fyi, a meta-index of the indie web</span>
             <div class="flex items-center gap-4">
                 <a href="{{ route('submit') }}" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">suggest an entry <span aria-hidden="true">→</span></a>
-                <a href="https://buymeacoffee.com/matthewtrask" target="_blank" rel="noopener noreferrer" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">buy me a coffee</a>
+                <a href="https://buymeacoffee.com/matthewtrask" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-full bg-yellow-400 hover:bg-yellow-300 text-yellow-900 px-3 py-1 text-xs font-medium transition-colors">
+                    <span aria-hidden="true">☕</span> Buy me a coffee
+                </a>
             </div>
         </div>
     </footer>
