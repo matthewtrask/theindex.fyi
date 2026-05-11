@@ -47,6 +47,10 @@
                                             rel="noopener noreferrer"
                                         >{{ $entry->name }}</a>
 
+                                        @if ($entry->language && $entry->language !== 'en')
+                                            <span class="text-xs px-1.5 py-0.5 rounded-full bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300">{{ $entry->languageName() }}</span>
+                                        @endif
+
                                         @if ($entry->status !== \App\Enums\IndexStatus::Active)
                                             <span class="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full font-medium
                                                 {{ $entry->status === \App\Enums\IndexStatus::Inactive

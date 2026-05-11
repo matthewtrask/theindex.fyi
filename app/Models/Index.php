@@ -11,6 +11,34 @@ class Index extends Model
 {
     protected $table = 'indexes';
 
+    public const LANGUAGES = [
+        'ar' => 'Arabic',
+        'zh' => 'Chinese',
+        'cs' => 'Czech',
+        'nl' => 'Dutch',
+        'en' => 'English',
+        'fi' => 'Finnish',
+        'fr' => 'French',
+        'de' => 'German',
+        'he' => 'Hebrew',
+        'hi' => 'Hindi',
+        'hu' => 'Hungarian',
+        'id' => 'Indonesian',
+        'it' => 'Italian',
+        'ja' => 'Japanese',
+        'ko' => 'Korean',
+        'no' => 'Norwegian',
+        'fa' => 'Persian',
+        'pl' => 'Polish',
+        'pt' => 'Portuguese',
+        'ro' => 'Romanian',
+        'ru' => 'Russian',
+        'es' => 'Spanish',
+        'sv' => 'Swedish',
+        'tr' => 'Turkish',
+        'uk' => 'Ukrainian',
+    ];
+
     protected $fillable = [
         'name',
         'slug',
@@ -18,10 +46,16 @@ class Index extends Model
         'description',
         'category',
         'accepts_submissions',
+        'language',
         'status',
         'last_checked_at',
         'submitted_by',
     ];
+
+    public function languageName(): ?string
+    {
+        return $this->language ? (self::LANGUAGES[$this->language] ?? $this->language) : null;
+    }
 
     protected $casts = [
         'category' => Category::class,

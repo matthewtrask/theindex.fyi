@@ -46,6 +46,19 @@
             </div>
 
             <div>
+                <label for="language" class="block text-sm font-medium mb-1.5">Language</label>
+                <select id="language" name="language"
+                    class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 px-3 py-2 text-sm bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-400">
+                    <option value="">Unknown / English</option>
+                    @foreach (\App\Models\Index::LANGUAGES as $code => $name)
+                        <option value="{{ $code }}" {{ old('language', $index->language) === $code ? 'selected' : '' }}>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
                 <label for="status" class="block text-sm font-medium mb-1.5">Status</label>
                 <select id="status" name="status" required
                     class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 px-3 py-2 text-sm bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-400">
