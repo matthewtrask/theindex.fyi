@@ -155,9 +155,8 @@ return [
     ],
 
     'passkeys' => [
-        // Defaults to the hostname of APP_URL — override if needed
-        // 'relying_party_id' => 'theindex.fyi',
-        // 'allowed_origins' => ['https://theindex.fyi'],
+        'relying_party_id' => env('PASSKEY_RP_ID', 'theindex.fyi'),
+        'allowed_origins' => array_filter(explode(',', env('PASSKEY_ALLOWED_ORIGINS', 'https://theindex.fyi,https://www.theindex.fyi'))),
     ],
 
 ];
