@@ -92,7 +92,10 @@
 
     <footer class="border-t border-stone-200 dark:border-stone-700 py-6 mt-10">
         <div class="mx-auto max-w-3xl px-4 text-sm text-stone-400 dark:text-stone-500 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-            <span>theindex.fyi, a meta-index of the indie web</span>
+            <div class="flex items-center gap-4">
+                <span>theindex.fyi, a meta-index of the indie web</span>
+                <a href="{{ route('colophon') }}" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">colophon</a>
+            </div>
             <div class="flex items-center gap-4">
                 <a href="{{ route('submit') }}" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">suggest an entry <span aria-hidden="true">→</span></a>
                 <a href="https://buymeacoffee.com/matthewtrask" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-full bg-yellow-400 hover:bg-yellow-300 text-yellow-900 px-3 py-1 text-xs font-medium transition-colors">

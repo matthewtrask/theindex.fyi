@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ColophonController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubmitController;
 use App\Http\Controllers\VisitController;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about', AboutController::class)->name('about');
+Route::get('/colophon', ColophonController::class)->name('colophon');
 Route::get('/visit/{slug}', VisitController::class)->name('visit');
 Route::get('/submit', [SubmitController::class, 'create'])->name('submit');
 Route::post('/submit', [SubmitController::class, 'store'])->name('submit.store');
