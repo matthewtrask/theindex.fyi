@@ -20,7 +20,7 @@ class StatsController extends Controller
 
         $tz = 'America/Chicago';
         $viewsToday = PageView::whereDate('visited_at', today($tz))->count();
-        $viewsWeek  = PageView::where('visited_at', '>=', now($tz)->subDays(7))->count();
+        $viewsWeek = PageView::where('visited_at', '>=', now($tz)->subDays(7))->count();
         $viewsTotal = PageView::count();
 
         $topPaths = PageView::selectRaw('path, count(*) as hits')

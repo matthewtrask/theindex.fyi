@@ -35,7 +35,7 @@ class LogPageView
             return false;
         }
 
-        if (!$request->isMethod('GET')) {
+        if (! $request->isMethod('GET')) {
             return false;
         }
 
@@ -55,7 +55,7 @@ class LogPageView
 
     private function cleanReferrer(?string $referrer): ?string
     {
-        if (!$referrer) {
+        if (! $referrer) {
             return null;
         }
 

@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Category;
-use App\Enums\IndexStatus;
 use App\Models\Index;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

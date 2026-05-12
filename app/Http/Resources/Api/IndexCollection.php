@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -31,7 +32,7 @@ class IndexCollection extends ResourceCollection
         ];
     }
 
-    public function toResponse($request): \Illuminate\Http\JsonResponse
+    public function toResponse($request): JsonResponse
     {
         return response()
             ->json($this->toArray($request))

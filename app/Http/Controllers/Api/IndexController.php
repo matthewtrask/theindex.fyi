@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Category;
 use App\Enums\IndexStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\IndexCollection;

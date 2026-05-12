@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "Bash(composer lint *)",
+      "Bash(composer test *)",
+      "Bash(vendor/bin/phpcbf *)",
+      "Bash(composer lint:check *)",
+      "Bash(composer phpcs *)"
     ]
   }
 }

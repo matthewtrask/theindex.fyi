@@ -11,6 +11,8 @@
     <rule ref="PSR12">
         <!-- Handled by Pint -->
         <exclude name="PSR12.Files.FileHeader"/>
+        <!-- PSR-12 allows closing paren on its own line for multiline calls; Pint formats this way -->
+        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket"/>
     </rule>
 
     <!-- Exclude Blade-compiled and vendor paths -->

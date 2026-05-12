@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Models\Index;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Index */
+/** @mixin Index */
 class IndexResource extends JsonResource
 {
     public static $wrap = 'data';
@@ -31,7 +33,7 @@ class IndexResource extends JsonResource
         ];
     }
 
-    public function withResponse(Request $request, \Illuminate\Http\JsonResponse $response): void
+    public function withResponse(Request $request, JsonResponse $response): void
     {
         $response->header('Content-Type', 'application/vnd.api+json');
     }

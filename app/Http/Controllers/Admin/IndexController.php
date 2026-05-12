@@ -43,7 +43,7 @@ class IndexController extends Controller
         $index->update($validated);
 
         return redirect()->route('admin.indexes.index')
-            ->with('success', "Entry updated.");
+            ->with('success', 'Entry updated.');
     }
 
     public function destroy(Index $index): RedirectResponse
@@ -51,6 +51,6 @@ class IndexController extends Controller
         $index->delete();
 
         return redirect()->route('admin.indexes.index')
-            ->with('success', "Entry deleted.");
+            ->with('success', 'Entry deleted.');
     }
 }

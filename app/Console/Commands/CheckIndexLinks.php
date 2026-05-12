@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 class CheckIndexLinks extends Command
 {
     protected $signature = 'indexes:check-links {--id= : Check a single index by ID}';
+
     protected $description = 'Check index links for availability and parking pages';
 
     // Strings that appear in parking/expired domain pages
