@@ -5,60 +5,53 @@
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
+        @if (request()->query('fallback'))
+            <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
+                @csrf
 
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
-                required
-                autofocus
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
-
-            <!-- Password -->
-            <div class="relative">
                 <flux:input
-                    name="password"
-                    :label="__('Password')"
-                    type="password"
+                    name="email"
+                    :label="__('Email address')"
+                    :value="old('email')"
+                    type="email"
                     required
-                    autocomplete="current-password"
-                    :placeholder="__('Password')"
-                    viewable
+                    autofocus
+                    autocomplete="email"
+                    placeholder="email@example.com"
                 />
 
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
-            </div>
+                <div class="relative">
+                    <flux:input
+                        name="password"
+                        :label="__('Password')"
+                        type="password"
+                        required
+                        autocomplete="current-password"
+                        :placeholder="__('Password')"
+                        viewable
+                    />
 
-            <!-- Remember Me -->
-            <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
+                    @if (Route::has('password.request'))
+                        <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
+                            {{ __('Forgot your password?') }}
+                        </flux:link>
+                    @endif
+                </div>
 
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
-                </flux:button>
-            </div>
-        </form>
+                <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
+
+                <div class="flex items-center justify-end">
+                    <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
+                        {{ __('Log in') }}
+                    </flux:button>
+                </div>
+            </form>
+        @endif
 
         @if (Route::has('passkey.login'))
-            <div class="relative">
-                <div class="absolute inset-0 flex items-center"><span class="w-full border-t dark:border-zinc-700"></span></div>
-                <div class="relative flex justify-center text-xs uppercase">
-                    <span class="px-2 bg-white dark:bg-zinc-900 text-zinc-500">{{ __('or') }}</span>
-                </div>
-            </div>
-
             <flux:button
                 type="button"
+                variant="primary"
                 class="w-full"
                 onclick="(async () => { try { await window.loginWithPasskey(); } catch (e) { alert(e.message || 'Passkey sign-in failed.'); } })()"
             >
