@@ -35,5 +35,14 @@ jobs:
       - name: Build assets
         run: npm run build
 
+      - name: Lint check
+        run: composer lint:check
+
+      - name: PHPStan
+        run: composer phpstan
+
+      - name: PHPCS
+        run: composer phpcs
+
       - name: Run tests
-        run: composer test
+        run: php artisan test
