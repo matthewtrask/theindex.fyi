@@ -49,6 +49,23 @@
             </div>
         </form>
 
+        @if (Route::has('passkey.login'))
+            <div class="relative">
+                <div class="absolute inset-0 flex items-center"><span class="w-full border-t dark:border-zinc-700"></span></div>
+                <div class="relative flex justify-center text-xs uppercase">
+                    <span class="px-2 bg-white dark:bg-zinc-900 text-zinc-500">{{ __('or') }}</span>
+                </div>
+            </div>
+
+            <flux:button
+                type="button"
+                class="w-full"
+                onclick="(async () => { try { await window.loginWithPasskey(); } catch (e) { alert(e.message || 'Passkey sign-in failed.'); } })()"
+            >
+                {{ __('Sign in with a passkey') }}
+            </flux:button>
+        @endif
+
         @if (Route::has('register'))
             <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
                 <span>{{ __('Don\'t have an account?') }}</span>

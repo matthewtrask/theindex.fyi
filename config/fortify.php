@@ -150,8 +150,14 @@ return [
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
-            // 'window' => 0
         ]),
+        Features::passkeys(),
+    ],
+
+    'passkeys' => [
+        // Defaults to the hostname of APP_URL — override if needed
+        // 'relying_party_id' => 'theindex.fyi',
+        // 'allowed_origins' => ['https://theindex.fyi'],
     ],
 
 ];

@@ -7,6 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Laravel\Passkeys\Passkey;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -24,6 +25,11 @@ new #[Title('Security settings')] class extends Component {
 
     public bool $requiresConfirmation;
 
+    /** @var \Illuminate\Support\Collection<int, Passkey> */
+    public $passkeys;
+
+    public string $newPasskeyName = '';
+
     /**
      * Mount the component.
      */
@@ -39,6 +45,26 @@ new #[Title('Security settings')] class extends Component {
             $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
             $this->requiresConfirmation = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm');
         }
+
+        $this->passkeys = Features::canManagePasskeys()
+            ? auth()->user()->passkeys()->latest()->get()
+            : collect();
+    }
+
+    public function removePasskey(int $id): void
+    {
+        $passkey = auth()->user()->passkeys()->findOrFail($id);
+        $passkey->delete();
+        $this->passkeys = auth()->user()->passkeys()->latest()->get();
+        Flux::toast(variant: 'success', text: __('Passkey removed.'));
+    }
+
+    #[On('passkey-registered')]
+    public function onPasskeyRegistered(): void
+    {
+        $this->passkeys = auth()->user()->passkeys()->latest()->get();
+        $this->newPasskeyName = '';
+        Flux::toast(variant: 'success', text: __('Passkey added.'));
     }
 
     /**
@@ -166,6 +192,63 @@ new #[Title('Security settings')] class extends Component {
                             <livewire:pages::settings.two-factor-setup-modal :requires-confirmation="$requiresConfirmation" />
                         </div>
                     @endif
+                </div>
+            </section>
+        @endif
+
+        @if (Features::canManagePasskeys())
+            <section class="mt-12">
+                <flux:heading>{{ __('Passkeys') }}</flux:heading>
+                <flux:subheading>{{ __('Sign in without a password using Face ID, Touch ID, or a hardware security key.') }}</flux:subheading>
+
+                <div class="mt-4 space-y-4">
+                    @forelse ($passkeys as $passkey)
+                        <div class="flex items-center justify-between p-3 border rounded-lg dark:border-zinc-700">
+                            <div>
+                                <flux:text class="font-medium">{{ $passkey->name }}</flux:text>
+                                <flux:text variant="subtle" class="text-xs">
+                                    {{ __('Added') }} {{ $passkey->created_at->diffForHumans() }}
+                                    @if ($passkey->last_used_at)
+                                        &middot; {{ __('Last used') }} {{ $passkey->last_used_at->diffForHumans() }}
+                                    @endif
+                                </flux:text>
+                            </div>
+                            <flux:button
+                                variant="danger"
+                                size="sm"
+                                wire:click="removePasskey({{ $passkey->id }})"
+                                wire:confirm="{{ __('Remove this passkey?') }}"
+                            >
+                                {{ __('Remove') }}
+                            </flux:button>
+                        </div>
+                    @empty
+                        <flux:text variant="subtle">{{ __('No passkeys registered yet.') }}</flux:text>
+                    @endforelse
+
+                    <div class="flex items-end gap-3 mt-4">
+                        <flux:input
+                            wire:model="newPasskeyName"
+                            :label="__('Passkey name')"
+                            placeholder="{{ __('e.g. MacBook Touch ID') }}"
+                            class="max-w-xs"
+                        />
+                        <flux:button
+                            x-data
+                            x-on:click="
+                                const name = $wire.newPasskeyName.trim();
+                                if (!name) return;
+                                try {
+                                    await window.registerPasskey(name);
+                                    $wire.dispatch('passkey-registered');
+                                } catch (e) {
+                                    alert(e.message || 'Registration failed.');
+                                }
+                            "
+                        >
+                            {{ __('Add passkey') }}
+                        </flux:button>
+                    </div>
                 </div>
             </section>
         @endif
