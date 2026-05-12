@@ -12,11 +12,14 @@ info:
 
     **Rate limiting:** 60 requests per minute per IP. Responses include `X-RateLimit-Limit`,
     `X-RateLimit-Remaining`, and `Retry-After` headers.
+
+    **Versioning:** The API is currently unversioned. If a breaking change is ever necessary,
+    versioning will be introduced via an `API-Version` request header rather than URL prefixes.
   contact:
     url: https://theindex.fyi/about
 
 servers:
-  - url: https://theindex.fyi/api/v1
+  - url: https://theindex.fyi/api
     description: Production
 
 tags:
@@ -57,18 +60,18 @@ paths:
                       accepts_submissions: true
                       last_checked_at: '2026-05-01T12:00:00Z'
                     links:
-                      self: https://theindex.fyi/api/v1/indexes/ooh-directory
+                      self: https://theindex.fyi/api/indexes/ooh-directory
                 meta:
                   total: 84
                   per_page: 25
                   current_page: 1
                   last_page: 4
                 links:
-                  self: https://theindex.fyi/api/v1/indexes?page[number]=1
-                  first: https://theindex.fyi/api/v1/indexes?page[number]=1
-                  last: https://theindex.fyi/api/v1/indexes?page[number]=4
+                  self: https://theindex.fyi/api/indexes?page[number]=1
+                  first: https://theindex.fyi/api/indexes?page[number]=1
+                  last: https://theindex.fyi/api/indexes?page[number]=4
                   prev: null
-                  next: https://theindex.fyi/api/v1/indexes?page[number]=2
+                  next: https://theindex.fyi/api/indexes?page[number]=2
         '429':
           $ref: '#/components/responses/TooManyRequests'
 
@@ -107,7 +110,7 @@ paths:
                     accepts_submissions: true
                     last_checked_at: '2026-05-01T12:00:00Z'
                   links:
-                    self: https://theindex.fyi/api/v1/indexes/ooh-directory
+                    self: https://theindex.fyi/api/indexes/ooh-directory
         '404':
           $ref: '#/components/responses/NotFound'
         '429':
@@ -239,7 +242,7 @@ components:
             self:
               type: string
               format: uri
-              example: https://theindex.fyi/api/v1/indexes/ooh-directory
+              example: https://theindex.fyi/api/indexes/ooh-directory
 
     IndexResource:
       type: object

@@ -15,6 +15,10 @@ Route::get('/visit/{slug}', VisitController::class)->name('visit');
 Route::get('/submit', [SubmitController::class, 'create'])->name('submit');
 Route::post('/submit', [SubmitController::class, 'store'])->name('submit.store');
 
+Route::get('/api/openapi.yaml', function () {
+    return response()->file(base_path('docs/openapi.yaml'), ['Content-Type' => 'application/yaml']);
+})->name('api.spec');
+
 Route::get('/sitemap.xml', function () {
     $urls = [
         ['url' => route('home'),   'priority' => '1.0', 'changefreq' => 'weekly'],

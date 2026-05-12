@@ -58,6 +58,7 @@
                     <a href="{{ route('about') }}"
                        class="transition-colors {{ request()->routeIs('about') ? 'text-teal-700 dark:text-teal-400 font-medium' : 'hover:text-teal-700 dark:hover:text-teal-400' }}"
                        {{ request()->routeIs('about') ? 'aria-current=page' : '' }}>about</a>
+                    <a href="/api/docs" class="hover:text-teal-700 dark:hover:text-teal-400 transition-colors">api</a>
                 </nav>
 
                 <button
