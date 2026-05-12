@@ -37,8 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
 
         RateLimiter::for('api', fn (Request $request) =>
-            Limit::perMinute(60)->by($request->ip())
-        );
+            Limit::perMinute(60)->by($request->ip()));
 
         DB::prohibitDestructiveCommands(
             app()->isProduction(),
@@ -51,7 +50,6 @@ class AppServiceProvider extends ServiceProvider
                 ->numbers()
                 ->symbols()
                 ->uncompromised()
-            : null,
-        );
+            : null,);
     }
 }

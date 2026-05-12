@@ -17,7 +17,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * Get the attributes that should be cast.

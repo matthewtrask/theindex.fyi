@@ -5,6 +5,7 @@ namespace App\Http\Resources\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin \App\Models\Index */
 class IndexResource extends JsonResource
 {
     public static $wrap = 'data';

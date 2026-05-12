@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Index extends Model
 {
     use HasFactory;
+
     protected $table = 'indexes';
 
     public const LANGUAGES = [

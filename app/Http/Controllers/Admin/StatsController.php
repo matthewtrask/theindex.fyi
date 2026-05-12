@@ -37,9 +37,13 @@ class StatsController extends Controller
             ->get();
 
         return view('admin.stats', compact(
-            'entries', 'totalClicks',
-            'viewsToday', 'viewsWeek', 'viewsTotal',
-            'topPaths', 'topReferrers',
+            'entries',
+            'totalClicks',
+            'viewsToday',
+            'viewsWeek',
+            'viewsTotal',
+            'topPaths',
+            'topReferrers',
         ));
     }
 }

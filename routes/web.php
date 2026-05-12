@@ -46,4 +46,4 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/indexes/{index}', [IndexController::class, 'destroy'])->name('indexes.destroy');
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+
+    level: 5
+
+    ignoreErrors:
+        # Fortify scaffolding — Password implements ValidationRule but PHPStan doesn't resolve it
+        - '#Method App\\Actions\\Fortify\\.+::passwordRules\(\) should return#'

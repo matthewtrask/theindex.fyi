@@ -161,3 +161,92 @@ it('returns 404 for a dead index', function () {
 
     $response->assertNotFound();
 });
+
+// --- Attribute correctness ---
+
+it('returns id as a string per JSON:API spec', function () {
+    Index::factory()->create(['slug' => 'string-id-test']);
+
+    $response = $this->getJson('/api/indexes/string-id-test');
+
+    expect($response->json('data.id'))->toBeString();
+});
+
+it('returns correct attribute values for a known index', function () {
+    $index = Index::factory()->create([
+        'name' => 'My Index',
+        'slug' => 'my-index',
+        'url' => 'https://myindex.example.com',
+        'description' => 'A test index.',
+        'category' => Category::CuratedDirectories,
+        'language' => 'fr',
+        'accepts_submissions' => false,
+        'last_checked_at' => null,
+    ]);
+
+    $response = $this->getJson('/api/indexes/my-index');
+
+    $response->assertOk()
+        ->assertJsonPath('data.attributes.name', 'My Index')
+        ->assertJsonPath('data.attributes.slug', 'my-index')
+        ->assertJsonPath('data.attributes.url', 'https://myindex.example.com')
+        ->assertJsonPath('data.attributes.description', 'A test index.')
+        ->assertJsonPath('data.attributes.category', 'curated_directories')
+        ->assertJsonPath('data.attributes.language', 'fr')
+        ->assertJsonPath('data.attributes.accepts_submissions', false)
+        ->assertJsonPath('data.attributes.last_checked_at', null);
+});
+
+it('returns null for language when not set', function () {
+    Index::factory()->create(['slug' => 'no-language', 'language' => null]);
+
+    $response = $this->getJson('/api/indexes/no-language');
+
+    $response->assertOk()
+        ->assertJsonPath('data.attributes.language', null);
+});
+
+it('returns accepts_submissions as a boolean', function () {
+    Index::factory()->create(['slug' => 'no-submissions', 'accepts_submissions' => false]);
+
+    $response = $this->getJson('/api/indexes/no-submissions');
+
+    expect($response->json('data.attributes.accepts_submissions'))->toBeBool();
+});
+
+// --- Combined filters ---
+
+it('filters by both category and language', function () {
+    Index::factory()->create(['category' => Category::CuratedDirectories, 'language' => 'es']);
+    Index::factory()->create(['category' => Category::CuratedDirectories, 'language' => 'fr']);
+    Index::factory()->create(['category' => Category::SearchEngines, 'language' => 'es']);
+
+    $response = $this->getJson('/api/indexes?' . http_build_query([
+        'filter' => ['category' => 'curated_directories', 'language' => 'es'],
+    ]));
+
+    $response->assertOk()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonPath('meta.total', 1);
+});
+
+// --- Empty state ---
+
+it('returns an empty collection when no active indexes exist', function () {
+    Index::factory()->inactive()->count(3)->create();
+
+    $response = $this->getJson('/api/indexes');
+
+    $response->assertOk()
+        ->assertJsonCount(0, 'data')
+        ->assertJsonPath('meta.total', 0);
+});
+
+// --- OpenAPI spec ---
+
+it('serves the openapi spec at /api/openapi.yaml', function () {
+    $response = $this->get('/api/openapi.yaml');
+
+    $response->assertOk()
+        ->assertHeader('Content-Type', 'application/yaml');
+});

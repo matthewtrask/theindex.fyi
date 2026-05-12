@@ -20,7 +20,7 @@ class LogPageView
 
         if ($this->shouldLog($request, $response)) {
             PageView::create([
-                'path' => $request->path() === '/' ? '/' : '/'.$request->path(),
+                'path' => $request->path() === '/' ? '/' : '/' . $request->path(),
                 'referrer' => $this->cleanReferrer($request->header('referer')),
                 'visited_at' => now(),
             ]);
