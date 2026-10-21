@@ -67,11 +67,11 @@ paths:
                   current_page: 1
                   last_page: 4
                 links:
-                  self: https://theindex.fyi/api/indexes?page[number]=1
-                  first: https://theindex.fyi/api/indexes?page[number]=1
-                  last: https://theindex.fyi/api/indexes?page[number]=4
+                  self: https://theindex.fyi/api/indexes?page%5Bnumber%5D=1&page%5Bsize%5D=25
+                  first: https://theindex.fyi/api/indexes?page%5Bnumber%5D=1&page%5Bsize%5D=25
+                  last: https://theindex.fyi/api/indexes?page%5Bnumber%5D=4&page%5Bsize%5D=25
                   prev: null
-                  next: https://theindex.fyi/api/indexes?page[number]=2
+                  next: https://theindex.fyi/api/indexes?page%5Bnumber%5D=2&page%5Bsize%5D=25
         '429':
           $ref: '#/components/responses/TooManyRequests'
 
@@ -161,7 +161,7 @@ components:
       name: page[size]
       in: query
       required: false
-      description: Number of results per page. Maximum 100.
+      description: Number of results per page. Values above 100 are capped at 100; values below 1 or non-numeric values use the default.
       schema:
         type: integer
         minimum: 1
@@ -335,7 +335,7 @@ components:
             errors:
               - status: '404'
                 title: Not Found
-                detail: No index exists with the slug "not-a-real-index".
+                detail: The requested resource does not exist.
 
     TooManyRequests:
       description: Rate limit exceeded. Wait for the `Retry-After` period before retrying.
@@ -363,4 +363,4 @@ components:
             errors:
               - status: '429'
                 title: Too Many Requests
-                detail: Rate limit of 60 requests per minute exceeded. Please slow down.
+                detail: Rate limit exceeded. Please slow down.

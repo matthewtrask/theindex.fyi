@@ -11,20 +11,28 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    private const DEFAULT_PAGE_SIZE = 25;
+
+    private const MAX_PAGE_SIZE = 100;
+
     public function index(Request $request): IndexCollection
     {
         $query = Index::where('status', IndexStatus::Active);
 
-        if ($category = $request->input('filter.category')) {
+        $category = $request->input('filter.category');
+        if (is_string($category) && $category !== '') {
             $query->where('category', $category);
         }
 
-        if ($language = $request->input('filter.language')) {
+        $language = $request->input('filter.language');
+        if (is_string($language) && $language !== '') {
             $query->where('language', $language);
         }
 
-        $pageSize = min((int) $request->input('page.size', 25), 100);
-        $page = max((int) $request->input('page.number', 1), 1);
+        // out-of-range sizes fall back to the default; a negative size would otherwise drop the LIMIT
+        $pageSize = $request->integer('page.size', self::DEFAULT_PAGE_SIZE);
+        $pageSize = $pageSize < 1 ? self::DEFAULT_PAGE_SIZE : min($pageSize, self::MAX_PAGE_SIZE);
+        $page = max($request->integer('page.number', 1), 1);
 
         $indexes = $query->orderBy('name')->paginate($pageSize, ['*'], 'page', $page);
 

@@ -116,6 +116,64 @@ it('includes pagination links', function () {
     expect($response->json('links.next'))->not->toBeNull();
 });
 
+it('reaches every entry exactly once by following next links', function () {
+    Index::factory()->count(7)->create();
+
+    $slugs = [];
+    $url = '/api/indexes?' . http_build_query(['page' => ['size' => 3]]);
+
+    // bounded so a link that never advances fails instead of looping forever
+    for ($requests = 0; $url !== null && $requests < 5; $requests++) {
+        $response = $this->getJson($url)->assertOk();
+        $slugs = [...$slugs, ...collect($response->json('data'))->pluck('attributes.slug')->all()];
+        $url = $response->json('links.next');
+    }
+
+    expect($url)->toBeNull()
+        ->and($slugs)->toHaveCount(7)
+        ->and(array_unique($slugs))->toHaveCount(7);
+});
+
+it('keeps filters and page size in pagination links', function () {
+    Index::factory()->count(5)->create(['category' => 'search_engines']);
+    Index::factory()->count(5)->create(['category' => 'random_discovery']);
+
+    $response = $this->getJson('/api/indexes?' . http_build_query([
+        'filter' => ['category' => 'search_engines'],
+        'page' => ['size' => 2],
+    ]))->assertOk();
+
+    $next = $response->json('links.next');
+    parse_str((string) parse_url($next, PHP_URL_QUERY), $query);
+
+    expect($query)->toMatchArray([
+        'filter' => ['category' => 'search_engines'],
+        'page' => ['number' => '2', 'size' => '2'],
+    ]);
+
+    $this->getJson($next)
+        ->assertOk()
+        ->assertJsonPath('meta.current_page', 2)
+        ->assertJsonPath('meta.total', 5);
+});
+
+it('falls back to the default page size for out-of-range sizes', function (string $size) {
+    Index::factory()->count(30)->create();
+
+    $this->getJson('/api/indexes?' . http_build_query(['page' => ['size' => $size]]))
+        ->assertOk()
+        ->assertJsonPath('meta.per_page', 25)
+        ->assertJsonCount(25, 'data');
+})->with(['zero' => '0', 'negative' => '-1', 'not a number' => 'abc']);
+
+it('ignores array-valued filters instead of erroring', function () {
+    Index::factory()->count(2)->create();
+
+    $this->getJson('/api/indexes?' . http_build_query(['filter' => ['category' => ['a', 'b']]]))
+        ->assertOk()
+        ->assertJsonPath('meta.total', 2);
+});
+
 // --- GET /api/indexes/{slug} ---
 
 it('returns a single active index by slug', function () {
@@ -142,7 +200,34 @@ it('returns 404 for a non-existent slug', function () {
     $response = $this->getJson('/api/indexes/does-not-exist');
 
     $response->assertNotFound()
-        ->assertJsonStructure(['message']);
+        ->assertHeader('Content-Type', 'application/vnd.api+json')
+        ->assertExactJson(['errors' => [[
+            'status' => '404',
+            'title' => 'Not Found',
+            'detail' => 'The requested resource does not exist.',
+        ]]]);
+
+    expect($response->getContent())->not->toContain('App\\Models');
+});
+
+it('returns JSON:API errors even without an Accept header', function () {
+    $this->get('/api/indexes/does-not-exist')
+        ->assertNotFound()
+        ->assertHeader('Content-Type', 'application/vnd.api+json')
+        ->assertJsonPath('errors.0.status', '404');
+});
+
+it('returns a JSON:API error when rate limited', function () {
+    for ($i = 0; $i < 60; $i++) {
+        $this->getJson('/api/indexes')->assertOk();
+    }
+
+    $this->getJson('/api/indexes')
+        ->assertTooManyRequests()
+        ->assertHeader('Content-Type', 'application/vnd.api+json')
+        ->assertHeader('Retry-After')
+        ->assertJsonPath('errors.0.status', '429')
+        ->assertJsonPath('errors.0.title', 'Too Many Requests');
 });
 
 it('returns 404 for an inactive index', function () {
