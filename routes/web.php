@@ -37,7 +37,7 @@ Route::get('/robots.txt', function () {
         ->header('Content-Type', 'text/plain');
 });
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/stats', StatsController::class)->name('stats');
     Route::get('/submissions', [SubmissionController::class, 'index'])->name('submissions.index');
     Route::patch('/submissions/{submission}', [SubmissionController::class, 'update'])->name('submissions.update');
