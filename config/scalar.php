@@ -59,8 +59,16 @@ return [
     | By default, it points to the jsDelivr CDN for the @scalar/api-reference
     | package. You can change this if you want to use a different CDN.
     |
+    | The version is pinned and loaded with Subresource Integrity, so a
+    | compromised release or CDN cannot run code on this origin. When
+    | upgrading, update both the URL and the hash together:
+    |
+    |   curl -sL <cdn url> | openssl dgst -sha384 -binary | openssl base64 -A
+    |
     */
-    'cdn' => 'https://cdn.jsdelivr.net/npm/@scalar/api-reference',
+    'cdn' => 'https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.73.0/dist/browser/standalone.js',
+
+    'cdn_integrity' => 'sha384-OKyMdsDX84ypSZEhVun8YElXk5c2GQaH3EXPOc6ItmVcLDUAvKHYwvDLvAgsqVtB',
 
     /*
     |--------------------------------------------------------------------------
