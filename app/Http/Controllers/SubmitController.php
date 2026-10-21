@@ -6,6 +6,7 @@ use App\Enums\Category;
 use App\Models\Submission;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class SubmitController extends Controller
@@ -19,11 +20,16 @@ class SubmitController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // honeypot: hidden from people, so only bots fill it in. Pretend it worked.
+        if ($request->filled('website')) {
+            return redirect()->route('submit')->with('success', 'Thanks — your submission is in the queue.');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'url' => ['required', 'url', 'max:255'],
+            'url' => ['required', 'url:http,https', 'max:255'],
             'description' => ['required', 'string', 'max:500'],
-            'category' => ['nullable', 'string'],
+            'category' => ['nullable', Rule::enum(Category::class)],
             'submitted_by_email' => ['nullable', 'email', 'max:255'],
         ]);
 

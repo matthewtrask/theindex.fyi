@@ -15,6 +15,12 @@
     <form method="POST" action="{{ route('submit.store') }}" class="space-y-5" novalidate>
         @csrf
 
+        {{-- honeypot: hidden from people and assistive tech; bots that fill it are dropped --}}
+        <div aria-hidden="true" style="position: absolute; left: -9999px;">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
         <div>
             <label for="name" class="block text-sm font-medium mb-1.5">
                 Name <span aria-hidden="true" class="text-red-500">*</span>
