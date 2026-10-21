@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Index;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class IndexController extends Controller
@@ -31,14 +32,20 @@ class IndexController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'url' => ['required', 'url', 'max:255'],
+            'url' => ['required', 'url:http,https', 'max:255'],
             'description' => ['required', 'string', 'max:500'],
-            'category' => ['required', 'string'],
-            'status' => ['required', 'string'],
+            'category' => ['required', Rule::enum(Category::class)],
+            'status' => ['required', Rule::enum(IndexStatus::class)],
             'accepts_submissions' => ['boolean'],
         ]);
 
         $validated['accepts_submissions'] = $request->boolean('accepts_submissions');
+
+        // a manual delisting sticks; reinstating hands the entry back to the link checker
+        $status = IndexStatus::from($validated['status']);
+        if ($status !== $index->status) {
+            $validated['status_locked'] = $status !== IndexStatus::Active;
+        }
 
         $index->update($validated);
 

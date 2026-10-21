@@ -51,6 +51,7 @@ class Index extends Model
         'accepts_submissions',
         'language',
         'status',
+        'status_locked',
         'last_checked_at',
         'submitted_by',
     ];
@@ -64,6 +65,7 @@ class Index extends Model
         'category' => Category::class,
         'status' => IndexStatus::class,
         'accepts_submissions' => 'boolean',
+        'status_locked' => 'boolean',
         'last_checked_at' => 'datetime',
     ];
 
