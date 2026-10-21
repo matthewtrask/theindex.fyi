@@ -78,4 +78,32 @@ class PasswordResetTest extends TestCase
             return true;
         });
     }
+
+    public function test_unknown_emails_get_the_same_response_as_known_ones(): void
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $known = $this->from(route('password.request'))->post(route('password.email'), ['email' => $user->email]);
+        $unknown = $this->from(route('password.request'))->post(route('password.email'), ['email' => 'nobody@example.com']);
+
+        $known->assertSessionHasNoErrors()->assertRedirect(route('password.request'));
+        $unknown->assertSessionHasNoErrors()->assertRedirect(route('password.request'));
+        $this->assertSame($known->getSession()->get('status'), $unknown->getSession()->get('status'));
+
+        Notification::assertSentTimes(ResetPassword::class, 1);
+    }
+
+    public function test_unknown_emails_get_the_same_json_response_as_known_ones(): void
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $known = $this->postJson(route('password.email'), ['email' => $user->email])->assertOk();
+        $unknown = $this->postJson(route('password.email'), ['email' => 'nobody@example.com'])->assertOk();
+
+        $this->assertSame($known->json(), $unknown->json());
+    }
 }
