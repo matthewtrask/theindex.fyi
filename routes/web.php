@@ -33,7 +33,7 @@ Route::get('/sitemap.xml', function () {
 })->name('sitemap');
 
 Route::get('/robots.txt', function () {
-    return response("User-agent: *\nAllow: /\nDisallow: /admin\nSitemap: " . route('sitemap') . "\n")
+    return response("User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /visit/\nSitemap: " . route('sitemap') . "\n")
         ->header('Content-Type', 'text/plain');
 });
 

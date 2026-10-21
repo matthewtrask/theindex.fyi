@@ -84,4 +84,11 @@ class LogPageViewTest extends TestCase
 
         $this->assertNull(PageView::sole()->referrer);
     }
+
+    public function test_does_not_log_bots(): void
+    {
+        $this->get('/', ['User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1)'])->assertOk();
+
+        $this->assertDatabaseCount('page_views', 0);
+    }
 }

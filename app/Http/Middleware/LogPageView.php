@@ -3,17 +3,13 @@
 namespace App\Http\Middleware;
 
 use App\Models\PageView;
+use App\Support\BotDetector;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogPageView
 {
-    private const BOT_SIGNATURES = [
-        'bot', 'crawl', 'spider', 'slurp', 'curl', 'wget',
-        'facebookexternalhit', 'Twitterbot', 'LinkedInBot',
-    ];
-
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
@@ -52,14 +48,7 @@ class LogPageView
             return false;
         }
 
-        $ua = strtolower($request->userAgent() ?? '');
-        foreach (self::BOT_SIGNATURES as $sig) {
-            if (str_contains($ua, strtolower($sig))) {
-                return false;
-            }
-        }
-
-        return true;
+        return ! BotDetector::isBot($request);
     }
 
     private function cleanReferrer(?string $referrer): ?string
