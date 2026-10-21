@@ -68,13 +68,19 @@ class LogPageView
             return null;
         }
 
-        $host = parse_url($referrer, PHP_URL_HOST);
+        $host = strtolower((string) parse_url($referrer, PHP_URL_HOST));
 
-        // drop self-referrals
-        if ($host && str_contains($host, 'theindex.fyi')) {
+        // only store real hostnames; the header is attacker-controlled
+        if (strlen($host) > 255 || ! filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) || ! str_contains($host, '.')) {
             return null;
         }
 
-        return $host ?: null;
+        // drop self-referrals
+        $appHost = strtolower((string) parse_url((string) config('app.url'), PHP_URL_HOST));
+        if ($host === $appHost || str_ends_with($host, '.' . $appHost)) {
+            return null;
+        }
+
+        return $host;
     }
 }
