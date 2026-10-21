@@ -20,13 +20,22 @@ class LogPageView
 
         if ($this->shouldLog($request, $response)) {
             PageView::create([
-                'path' => $request->path() === '/' ? '/' : '/' . $request->path(),
+                'path' => $this->path($request),
                 'referrer' => $this->cleanReferrer($request->header('referer')),
                 'visited_at' => now(),
             ]);
         }
 
         return $response;
+    }
+
+    // log the route template, not the raw path, so secrets in route
+    // parameters (e.g. password reset tokens) are never stored
+    private function path(Request $request): string
+    {
+        $path = $request->route()?->uri() ?? $request->path();
+
+        return '/' . ltrim($path, '/');
     }
 
     private function shouldLog(Request $request, Response $response): bool
